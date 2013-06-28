@@ -7,7 +7,31 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe 'database::mysql'
+include_recipe "database"
+
+app_name  = node[:rails_app][:name]
 user_name = node[:rails_app][:user]
+
+db = {
+  host:     "localhost",
+  username: 'root',
+  password: node['mysql']['server_root_password']
+}
+
+mysql_database app_name do
+  connection db
+  action :create
+end
+
+mysql_database_user node['rails_app']['mysql']['user'] do
+  connection db
+  password node['rails_app']['mysql']['password']
+  database_name app_name
+  privileges [:all]
+  action [:create, :grant]
+end
+
 home_dir = "/home/#{user_name}"
 user user_name do
   action :create
@@ -28,7 +52,6 @@ directory "#{home_dir}/rails_app/shared/system" do
   recursive true
 end
 
-app_name  = node[:rails_app][:name]
 template "/etc/nginx/sites-enabled/#{app_name}.conf" do
   source "nginx.conf.erb"
   owner "root"
