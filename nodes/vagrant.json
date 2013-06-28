@@ -1,1 +1,13 @@
-{"run_list":["role[single]"]}
+{"run_list": [
+    "role[single]", "recipe[rails_app]"
+ ],
+ "rails_app": {
+     "name": "rails_app",
+     "user": "rails_app"
+ },
+ "mysql": {
+     "server_root_password":   "mysql_root_password",
+     "server_repl_password":   "mysql_repl_password",
+     "server_debian_password": "mysql_debian_password"
+ }
+}
