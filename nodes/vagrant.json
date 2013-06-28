@@ -3,7 +3,10 @@
  ],
  "rails_app": {
      "name": "rails_app",
-     "user": "rails_app"
+     "user": "rails_app",
+     "mysql": {"user":     "rails_app",
+               "password": "rails_app_password"
+     }
  },
  "mysql": {
      "server_root_password":   "mysql_root_password",
